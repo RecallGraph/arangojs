@@ -90,6 +90,7 @@ export class Route {
    * and returns the server response.
    *
    * @param path - Path relative to this route.
+   * @param body - Body of the request object. Must not be a string.
    * @param qs - Query string parameters for this request.
    * @param headers - Additional headers to send with this request.
    *
@@ -102,6 +103,7 @@ export class Route {
    */
   delete(
     path: string,
+    body?: any,
     qs?: string | Params,
     headers?: Headers
   ): Promise<ArangojsResponse>;
@@ -109,6 +111,7 @@ export class Route {
    * Performs a DELETE request against the given path relative to this route
    * and returns the server response.
    *
+   * @param body - Body of the request object. Must not be a string.
    * @param qs - Query string parameters for this request.
    * @param headers - Additional headers to send with this request.
    *
@@ -120,11 +123,11 @@ export class Route {
    * const res = await user.delete();
    * ```
    */
-  delete(qs?: Params, headers?: Headers): Promise<ArangojsResponse>;
+  delete(body?: any, qs?: Params, headers?: Headers): Promise<ArangojsResponse>;
   delete(...args: any[]): Promise<ArangojsResponse> {
     const path = typeof args[0] === "string" ? args.shift() : undefined;
-    const [qs, headers] = args;
-    return this.request({ method: "DELETE", path, qs, headers });
+    const [body, qs, headers] = args;
+    return this.request({ method: "DELETE", path, body, qs, headers });
   }
 
   /**
